@@ -18,11 +18,11 @@ const char* Battery::getStatus()
     }
     status >> str1;
     if(strstr(str1, "Discharging")){
-        cout << str1;
-        cout << "### getStatus: Discharging  ###" << endl;
+      //  cout << str1;
+     //   cout << "### getStatus: Discharging  ###" << endl;
         return "DC";
     }
-    cout << "### Laptop either charging or Fully-charged ###" << endl;
+    //cout << "### Laptop either charging or Fully-charged ###" << endl;
     status.close();
     return "AC";
 }
@@ -51,7 +51,24 @@ int Battery::getTimeLeft()
         return 0;
     }
     return 3 * 60 * level / 100;    //3h0m with 100% capacity;
-                                    //level - current capacity
+    //level - current capacity
+}
+
+char* Battery::getStandbyTime()
+{
+    char *buf = new char[128];
+    FILE *cmd = popen("xset q | grep Standby", "r");
+    if(!cmd)
+        cout << "Open error" << endl;
+    fgets(buf, 128, cmd);
+    buf = buf+11;
+    //cout << buf << endl;
+    int i = 0;
+    for(; buf[i] != ' ';i++);
+    buf[i] = '\0';
+    //cout << buf << endl << "##" << atoi(buf) << "##";
+    pclose(cmd);
+    return buf;
 }
 
 

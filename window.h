@@ -21,6 +21,7 @@ class Window : public QWidget
     Battery b;
 
     bool isPS;
+    char* default_standby;
     static void Timer(Window* parent);
 
 

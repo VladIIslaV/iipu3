@@ -13,6 +13,7 @@ public:
     const char* getStatus();
     const char* getLevel();
     int getTimeLeft();
+    char* getStandbyTime();
 };
 
 #endif // BATTERY_H

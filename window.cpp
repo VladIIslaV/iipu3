@@ -60,19 +60,25 @@ void Window::RefreshInfo()
 */
 void Window::Powersaving()
 {
+    QString str = QString("xset dpms ");
 
     if(!isPS){
-        char* cmd{"xset dpms "};
-        QString str = QString("xset dpms ") + timeout->text();
+        default_standby = b.getStandbyTime();
+        cout << "Default standby: " << default_standby << endl;
+        //cout << endl << default_standby << endl;
+        //usleep(10000000);
+        str += timeout->text();
         system(str.toStdString().c_str());
         system("xset +dpms");
         isPS = true;
     }
     else{
+        str += QString(default_standby);
+        cout << str.toStdString().c_str() << endl;
+        system(str.toStdString().c_str());
         system("xset -dpms");
         isPS = false;
     }
-
 }
 
 /*
@@ -127,5 +133,6 @@ Window::Window(QWidget *parent) : QWidget(parent)
 
     QtConcurrent::run(Timer, this);
     isPS = false;
+    default_standby = new char[5];
 }
 
